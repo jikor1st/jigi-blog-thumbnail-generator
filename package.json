@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.9.0",
+    "@emotion/babel-plugin": "^11.10.2",
     "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -14,16 +16,17 @@
     "@types/react-dom": "^18.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "resize-observer-polyfill": "^1.5.1",
-    "router-dom": "^2.2.9",
     "typescript": "^4.8.2",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -43,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "craco-alias": "^3.0.1"
   }
 }

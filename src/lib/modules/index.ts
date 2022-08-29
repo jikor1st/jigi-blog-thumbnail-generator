@@ -1,0 +1,1 @@
+export { namedLazy } from './namedLazy';

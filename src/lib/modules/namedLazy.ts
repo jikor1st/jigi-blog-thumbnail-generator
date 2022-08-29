@@ -1,14 +1,14 @@
-import { lazy } from "react";
+import { lazy } from 'react';
 
-const NamedLazy = <T extends {}, U extends keyof T>(
+export const namedLazy = <T extends {}, U extends keyof T>(
   loader: (x?: string) => Promise<T>,
-  timeout: number | undefined = 0
+  timeout: number | undefined = 0,
 ) => {
   return new Proxy({} as unknown as T, {
     get: (target, componentName: string | symbol, receiver) => {
-      if (typeof componentName === "string") {
+      if (typeof componentName === 'string') {
         return lazy(() =>
-          loader(componentName).then(async (x) => {
+          loader(componentName).then(async x => {
             const componentObject = {
               default: x[componentName as U] as any as React.ComponentType<any>,
             };
@@ -16,16 +16,14 @@ const NamedLazy = <T extends {}, U extends keyof T>(
               return await new Promise<{ default: React.ComponentType }>(
                 (res, rej) => {
                   setTimeout(() => res(componentObject), timeout);
-                }
+                },
               );
             } else {
               return componentObject;
             }
-          })
+          }),
         );
       }
     },
   });
 };
-
-export { NamedLazy };

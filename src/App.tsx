@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+// routers
+import { Routes, Route, NavLink } from 'react-router-dom';
+
+// constants
+import { PAGE_ROUTES } from '@/lib/constants';
+
+import { AsyncBoundary } from '@/extends-components';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <NavLink to={'/'}>메인</NavLink>
+        <NavLink to={'/success'}>성공</NavLink>
+        <NavLink to={'failed'}>실패</NavLink>
+      </div>
+      <Routes>
+        {PAGE_ROUTES.map(({ path, page, name }) => (
+          <Route
+            path={path}
+            element={
+              <AsyncBoundary
+                pendingFallback={<div>로딩</div>}
+                rejectedFallback={() => <div>에러 감지</div>}
+              >
+                {React.createElement(page)}
+              </AsyncBoundary>
+            }
+            key={path}
+          />
+        ))}
+      </Routes>
+    </>
   );
 }
 
