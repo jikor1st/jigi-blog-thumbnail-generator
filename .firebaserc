@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "jbtg-1879e"
+  },
+  "targets": {
+    "jbtg-1879e": {
+      "hosting": {
+        "app": [
+          "jigi-btg"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

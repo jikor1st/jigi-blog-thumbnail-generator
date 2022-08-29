@@ -1,10 +1,17 @@
 const typographyOptions = {
   htmlFontSize: 16,
   fontFamily: '',
-  fontWeightLight: 300,
-  fontWeightRegular: 400,
-  fontWeightMedium: 400,
-  fontWeightBold: 700,
+  fontWeights: {
+    Black: 900,
+    ExtraBold: 800,
+    Bold: 700,
+    SemiBold: 600,
+    Medium: 500,
+    Regular: 400,
+    Light: 300,
+    ExtraLight: 200,
+    Thin: 100,
+  },
   h1: {
     fontFamily: '',
     fontSize: '',
@@ -21,8 +28,8 @@ const typographyOptions = {
   // subtitle2,
   // body1,
   // body2,
-  // button,
   // caption:
+  // overline,
 };
 
 export { typographyOptions };

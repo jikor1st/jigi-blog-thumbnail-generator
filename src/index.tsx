@@ -4,15 +4,24 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { HashRouter, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+
+import { Global, ThemeProvider } from '@emotion/react';
+
+import { globalTheme } from '@/lib/theme';
+// styles
+import { globalCss, resetCss } from '@/lib/styles';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/jigi-blog-thumbnail-generator">
-      <App />
+    <BrowserRouter>
+      <ThemeProvider theme={globalTheme}>
+        <Global styles={[resetCss, globalCss]} />
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );

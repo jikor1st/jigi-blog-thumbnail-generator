@@ -2,7 +2,6 @@
   "name": "jigi-blog-thumbnail-generator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jikor1st.github.io/jigi-blog-thumbnail-generator",
   "dependencies": {
     "@craco/craco": "^5.9.0",
     "@emotion/babel-plugin": "^11.10.2",
@@ -15,7 +14,7 @@
     "@types/node": "^16.11.56",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
-    "gh-pages": "^4.0.0",
+    "firebase": "^9.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
@@ -27,9 +26,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "temp":"rmdir /S docs &",
     "build": "craco build",
-    "deploy": "gh-pages -d build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

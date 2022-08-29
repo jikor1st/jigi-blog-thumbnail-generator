@@ -2,10 +2,14 @@ import React from 'react';
 
 import { namedLazy } from '@/lib/modules';
 
-const { MainPage, SuccessPage, FailedPage, PageNotFoundPage } = namedLazy(
-  () => import('@/pages'),
-  350,
-);
+const {
+  MainPage,
+  SuccessPage,
+  FailedPage,
+  PageNotFoundPage,
+  // playground
+  BreakpointsPage,
+} = namedLazy(() => import('@/pages'), 350);
 
 interface PageRouteType {
   name: string;
@@ -28,6 +32,11 @@ export const PAGE_ROUTES: PageRouteType[] = [
     name: '실패',
     path: 'failed',
     page: FailedPage,
+  },
+  {
+    name: 'playground/breakpoints',
+    path: 'playground/breakpoints',
+    page: BreakpointsPage,
   },
   {
     name: '404',

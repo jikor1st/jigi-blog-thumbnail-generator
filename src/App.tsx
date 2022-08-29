@@ -13,7 +13,7 @@ function App() {
     <>
       <div>
         <NavLink to={'/'}>메인</NavLink>
-        <NavLink to={'/success'}>성공</NavLink>
+        <NavLink to={'success'}>성공</NavLink>
         <NavLink to={'failed'}>실패</NavLink>
       </div>
       <Routes>

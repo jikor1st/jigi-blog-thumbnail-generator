@@ -1,0 +1,1 @@
+export { breakpointsOptions } from './breakpoints';
