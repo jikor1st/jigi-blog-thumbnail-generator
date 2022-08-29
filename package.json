@@ -15,6 +15,7 @@
     "@types/node": "^16.11.56",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
@@ -26,7 +27,9 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "rmdir /S docs & craco build",
+    "temp":"rmdir /S docs &",
+    "build": "craco build",
+    "deploy": "gh-pages -d build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
