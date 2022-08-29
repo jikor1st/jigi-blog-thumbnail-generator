@@ -2,6 +2,7 @@
   "name": "jigi-blog-thumbnail-generator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jikor1st.github.io/jigi-blog-thumbnail-generator",
   "dependencies": {
     "@craco/craco": "^5.9.0",
     "@emotion/babel-plugin": "^11.10.2",
