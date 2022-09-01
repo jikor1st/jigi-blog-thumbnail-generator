@@ -1,21 +1,21 @@
-const paletteOptions = {
+export const paletteOptions = {
   mode: '',
   primary: {
     main: '#0CBDD9',
-    dark: '#EEF5FC',
-    light: '#23578B',
+    dark: '#23578B',
+    light: '#EEF5FC',
     contrast: '#FFFFFF',
   },
   secondary: {
     main: '#434B4E',
-    dark: '#D8E2E9',
-    light: '#27282A',
+    dark: '#27282A',
+    light: '#D8E2E9',
     contrast: '#FFFFFF',
   },
   error: {
     main: '#EB185F',
-    dark: '#FBE5E5',
-    light: '#811540',
+    dark: '#811540',
+    light: '#FBE5E5',
     contrast: '#FFFFFF',
   },
   // warning: {
@@ -32,8 +32,8 @@ const paletteOptions = {
   // },
   success: {
     main: '#8DDF10',
-    dark: '#E8F9D7',
-    light: '#4F782F',
+    dark: '#4F782F',
+    light: '#E8F9D7',
     contrast: '#1C1D18',
   },
   background: {
@@ -55,5 +55,3 @@ const paletteOptions = {
     hover: 'rgba(34,34,34,.06)',
   },
 };
-
-export { paletteOptions };

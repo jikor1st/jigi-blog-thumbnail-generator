@@ -78,6 +78,8 @@ const useCanvas = (props: UseCanvasProps) => {
     height: 0,
   });
 
+  const requetAnimationRef = useRef<number | null>(null);
+
   const { registerObserver } = useResizeObserver({
     onResizeObserver: rect => {
       // preset
@@ -105,6 +107,11 @@ const useCanvas = (props: UseCanvasProps) => {
         onCanvasReady(ctxRef.current);
         useRequestAnimationFrame && canvasRequestAnimationFrame();
       }
+      return () => {
+        useRequestAnimationFrame &&
+          requetAnimationRef.current &&
+          window.cancelAnimationFrame(requetAnimationRef.current);
+      };
     },
     [],
     {
@@ -152,7 +159,9 @@ const useCanvas = (props: UseCanvasProps) => {
 
   const canvasRequestAnimationFrame = () => {
     if (!isBrowser || !ctxRef.current) return;
-    window.requestAnimationFrame(canvasRequestAnimationFrame);
+    requetAnimationRef.current = window.requestAnimationFrame(
+      canvasRequestAnimationFrame,
+    );
     onReuqestAnimationFrame(ctxRef.current, callbackOptions());
   };
 
@@ -204,6 +213,7 @@ const useCanvas = (props: UseCanvasProps) => {
   return {
     registerCanvas,
     registerCanvasContainer,
+    canvasRef,
     ctxRef,
     canvasStageRef,
   };

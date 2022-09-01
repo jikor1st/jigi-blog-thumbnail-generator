@@ -1,11 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 
-import { TextField } from '@/components';
+import { TextField, Button } from '@/components';
 
 import { useCanvas, useForm, useConditionEffect } from '@/lib/hooks';
 
 import { BlogThumbnail } from '@/lib/modules';
+
+import { useTheme } from '@emotion/react';
 
 const Container = styled.main(({ theme }) => {
   return {
@@ -94,43 +96,48 @@ const InputWrapper = styled.div(() => {
 
 const initialValues = {
   blogName: {
-    value: 'ㄱ부터ㅎ까지',
+    value: '',
   },
   category: {
-    value: '자바스크립트',
+    value: '',
   },
   title: {
-    value: 'this란 무엇일까?',
+    value: '',
   },
   contents: {
-    value: 'this는 자기 자신을 참조하는 동적 변수입니다.',
+    value: '',
   },
 };
 
 export function MainPage() {
-  const ThumbnailRef = useRef(
-    new BlogThumbnail<keyof typeof initialValues>(Object.keys(initialValues)),
-  );
-  const { ctxRef, canvasStageRef, registerCanvas, registerCanvasContainer } =
-    useCanvas({
-      initialOptions: {
-        stageRectMethod: 'offset',
-        useRequestAnimationFrame: true,
-      },
-      onCanvasObserver(ctx) {
-        ThumbnailRef.current.show(ctx);
-      },
-      onReuqestAnimationFrame(ctx, options) {
-        const { stageWidth, stageHeight } = options;
-        ctx.clearRect(0, 0, stageWidth, stageHeight);
-        ThumbnailRef.current.show(ctx);
-      },
-    });
+  const theme = useTheme();
 
   const { formValue, formValidate, handleSetFormValue, handleSetFormValidate } =
     useForm({
       initial: initialValues,
     });
+
+  const ThumbnailRef = useRef(
+    new BlogThumbnail<keyof typeof initialValues>(Object.keys(initialValues)),
+  );
+  const {
+    canvasRef,
+    ctxRef,
+    canvasStageRef,
+    registerCanvas,
+    registerCanvasContainer,
+  } = useCanvas({
+    initialOptions: {
+      stageRectMethod: 'offset',
+      useRequestAnimationFrame: true,
+    },
+    onCanvasObserver(ctx, { stageWidth, stageHeight }) {
+      ThumbnailRef.current.show(ctx, stageWidth, stageHeight);
+    },
+    onReuqestAnimationFrame(ctx, { stageWidth, stageHeight }) {
+      ThumbnailRef.current.show(ctx, stageWidth, stageHeight);
+    },
+  });
 
   const handleChangeBlogName = (event: ChangeEvent<HTMLInputElement>) =>
     handleSetFormValue('blogName', event.target.value);
@@ -144,7 +151,7 @@ export function MainPage() {
   useEffect(() => {
     ThumbnailRef.current.update('blogName', formValue.blogName, {
       x: canvasStageRef.current.width / 2,
-      y: 20 + 16,
+      y: 20,
       fontSize: 16,
       textAlign: 'center',
       color: '#cccccc',
@@ -153,30 +160,53 @@ export function MainPage() {
   useEffect(() => {
     ThumbnailRef.current.update('category', formValue.category, {
       x: canvasStageRef.current.width / 2,
-      y: 20 + 16 + 8 + 16,
+      y: 44,
       fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',
-      color: '#a2a2a2cc',
+      color: '#808080',
     });
   }, [formValue.category]);
   useEffect(() => {
     ThumbnailRef.current.update('title', formValue.title, {
       x: canvasStageRef.current.width / 2,
-      y: 20 + 16 + 16 + 8 + 120,
-      fontSize: 120,
+      y: canvasStageRef.current.height / 2.2,
+      fontSize: canvasStageRef.current.width / 3.4,
+      fontWeight: 900,
+      color: theme.palette.primary.main,
       textAlign: 'center',
+      textBaseline: 'middle',
+      lineHeight: `${canvasStageRef.current.width / 3.4}px`,
+      multiline: true,
       // maxWidth: canvasStageRef.current.width,
     });
-  }, [formValue.title]);
+  }, [formValue.title, theme]);
   useEffect(() => {
     ThumbnailRef.current.update('contents', formValue.contents, {
       x: canvasStageRef.current.width / 2,
-      y: 20 + 16 + 16 + 120 + 8 + 26,
-      fontSize: 25,
+      y: canvasStageRef.current.height - 22 * 3,
+      fontSize: 22,
       textAlign: 'center',
+      textBaseline: 'middle',
+      lineHeight: '34px',
+      multiline: true,
+      maxWidth: canvasStageRef.current.width,
     });
   }, [formValue.contents]);
+
+  const downloadImageFromCanvas = () => {
+    if (!canvasRef.current) return;
+    const imageURL = canvasRef.current.toDataURL('image/png');
+
+    const aEl = document.createElement('a');
+    aEl.href = imageURL;
+    aEl.download = `${formValue.category}-${formValue.title}-thumbnail`;
+    aEl.click();
+  };
+
+  const handleClickCreateImage = () => {
+    downloadImageFromCanvas();
+  };
 
   return (
     <Container>
@@ -215,6 +245,7 @@ export function MainPage() {
                 type="text"
                 placeholder="제목을 입력해주세요"
                 value={formValue.title}
+                multiLine
                 onChange={handleChangeTitle}
               />
             </InputWrapper>
@@ -224,8 +255,18 @@ export function MainPage() {
                 type="text"
                 placeholder="콘텐츠를 입력해주세요"
                 value={formValue.contents}
+                multiLine
                 onChange={handleChangeContents}
               />
+            </InputWrapper>
+            <InputWrapper>
+              <Button
+                variant="primary"
+                onClick={handleClickCreateImage}
+                fullWidth
+              >
+                제작하기
+              </Button>
             </InputWrapper>
           </FormWrapper>
         </FormSection>

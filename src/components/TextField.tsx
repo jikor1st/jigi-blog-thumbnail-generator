@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { ChangeEventHandler, memo, forwardRef } from 'react';
+import {
+  ChangeEventHandler,
+  memo,
+  forwardRef,
+  useRef,
+  ChangeEvent,
+} from 'react';
 
 /** InputBase Component */
 interface InputBaseProps {
@@ -51,16 +57,84 @@ const Input = styled.input(({ theme }) => {
 });
 const TextArea = styled.textarea(({ theme }) => {
   return {
+    resize: 'unset',
+    // boxSizing: 'border-box',
+    background: 'transparent',
     width: '100%',
-    height: '100%',
-    border: 0,
+    height: theme.typography.subtitle1.lineHeight,
+    maxHeight: `calc(${theme.typography.subtitle1.lineHeight} * 3)`,
+    overflow: 'auto',
+    padding: '12px 0',
     color: theme.palette.text.primary,
+    border: 0,
     ...theme.typography.subtitle1,
+    transition: 'all 0.27s ease-in-out',
     '&::placeholder': {
       color: theme.palette.text.light,
     },
+    borderBottom: `2px solid ${theme.palette.divider.primary}`,
+    '&:hover': {
+      borderColor: theme.palette.primary.main,
+    },
+    '&:focus': {
+      outline: 0,
+      borderColor: theme.palette.primary.main,
+    },
+    '&:disabled': {
+      background: theme.palette.actions.hover,
+      borderColor: theme.palette.actions.disabled,
+      paddingLeft: '12px',
+      '&::placeholder': {
+        color: theme.palette.actions.disabled,
+      },
+    },
+    // not standard
+    '&::-webkit-scrollbar': {
+      width: 4,
+      borderRadius: 2,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.actions.disabled,
+      borderRadius: 2,
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: theme.palette.actions.hover,
+    },
   };
 });
+
+interface AuthResizeTextAreaProps extends InputBaseProps {
+  // children?: string | number;
+}
+
+const AutoResizeTextArea: React.FC<AuthResizeTextAreaProps> = ({
+  onChange,
+  value,
+  ...props
+}) => {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  // TODO : auto resize 적용
+  const autoResizeTextarea = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    // const target = event.currentTarget;
+    // if (target) {
+    //   let height = target.scrollHeight; // 높이
+    //   target.style.height = `${height + 8}px`;
+    // }
+  };
+
+  return (
+    <TextArea
+      onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+        typeof onChange === 'function' && onChange(event);
+        autoResizeTextarea(event);
+      }}
+      ref={textAreaRef}
+      {...props}
+      value={value}
+    />
+  );
+};
 
 export const InputBase = memo(
   forwardRef<HTMLInputElement, InputBaseProps>(
@@ -87,7 +161,13 @@ export const InputBase = memo(
               ref={inputRef}
             />
           ) : (
-            <TextArea onChange={onChange}>{value}</TextArea>
+            <AutoResizeTextArea
+              placeholder={placeholder}
+              onChange={onChange}
+              disabled={disabled}
+              // ref={inputRef}
+              value={value}
+            />
           )}
         </InputBaseContainer>
       );

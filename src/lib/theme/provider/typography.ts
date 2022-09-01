@@ -1,17 +1,36 @@
 import { typographyOptions } from '../options';
-// import { typographyGenerator } from '../utils';
 
 const { htmlFontSize, fontFamily, typeface } = typographyOptions;
 
-// const pxToRem = (pixelNum: number, htmlFontSize: HtmlFontSizeType) =>
-//   pixelNum === 0 ? 0 : `${pixelNum / htmlFontSize}rem`;
-type TypefaceType = typeof typeface;
-interface TypographyProviderType extends TypefaceType {
-  htmlFontSize: typeof htmlFontSize;
-  fontFamily: string;
-}
+// const pxToRem = (pixelNum: number, htmlFontSize: number) =>
+//   `${pixelNum / htmlFontSize}rem`;
 
-export const typographyProvider: TypographyProviderType = {
+// type TypefaceType = typeof typeface;
+// type TypefaceIndexSig = { [V in keyof TypefaceType]: TypefaceType[V] };
+
+// const tyefaceConvert = (typeface: TypefaceIndexSig) => {
+//   const convertedTypeface = Object.fromEntries(
+//     Object.entries(typeface).map(([typefaceName, typefaceObject]) => {
+//       const convertedClassValue = Object.fromEntries(
+//         Object.entries(typefaceObject).map(([className, classValue]) => {
+//           if (typeof classValue === 'number' && classValue !== 0) {
+//             return [className, pxToRem(classValue, htmlFontSize)];
+//           }
+//           return [className, classValue];
+//         }),
+//       );
+//       return [typefaceName, convertedClassValue];
+//     }),
+//   );
+//   console.log(convertedTypeface);
+//   return convertedTypeface;
+// };
+// interface TypographyProviderType {
+//   htmlFontSize: typeof htmlFontSize;
+//   fontFamily: string;
+// }
+
+export const typographyProvider = {
   htmlFontSize,
   fontFamily,
   ...typeface,

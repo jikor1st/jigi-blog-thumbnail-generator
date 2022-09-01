@@ -1,20 +1,75 @@
+import { convert } from '@/lib/utils';
+import { isContext } from 'vm';
 interface TextOptionsProps {
   color?: string;
-  fontWeight?: any;
+  fontWeight?: number | string;
   fontStyle?: 'normal' | 'italic';
   fontSize?: string | number;
   fontFamily?: string;
+  lineHeight?: string;
   x?: number;
   y?: number;
   textAlign?: CanvasTextAlign;
   textBaseline?: CanvasTextBaseline;
   maxWidth?: number;
+  multiline?: boolean;
+}
+
+interface WrapTextOptionsProps {
+  x: number;
+  y: number;
+  maxWidth?: number;
+  lineHeight: string;
 }
 
 class Text {
   constructor() {}
 
-  wrapText(ctx: CanvasRenderingContext2D) {}
+  wrapText(
+    ctx: CanvasRenderingContext2D,
+    text: string | number,
+    {
+      x,
+      y,
+      maxWidth = Number.MAX_SAFE_INTEGER,
+      lineHeight,
+    }: WrapTextOptionsProps,
+  ) {
+    const paragraphys = text.toString().split('\n');
+    const textLines = [];
+
+    for (let p = 0; p < paragraphys.length; p++) {
+      let line = '';
+      const words = paragraphys[p].split(' ');
+
+      // loop
+      for (let w = 0; w < words.length; w++) {
+        const testLine = line + words[w] + ' ';
+        const matrics = ctx.measureText(testLine);
+        const testWidth = matrics.width;
+
+        // make line break
+        if (testWidth > maxWidth) {
+          textLines.push(line.trim());
+          line = words[w] + ' ';
+        } else {
+          line = testLine;
+        }
+      }
+      textLines.push(line.trim());
+    }
+
+    // move text up centered vertically
+    if (ctx.textBaseline === 'middle') {
+      y = y - ((textLines.length - 1) * convert.pxToNum(lineHeight)) / 2;
+    }
+
+    // render text canvas
+    for (let tl = 0; tl < textLines.length; tl++) {
+      ctx.fillText(textLines[tl], x, y);
+      y += convert.pxToNum(lineHeight);
+    }
+  }
   public draw(
     ctx: CanvasRenderingContext2D,
     text: string | number,
@@ -29,21 +84,27 @@ class Text {
       maxWidth = undefined,
       x = 0,
       y = 0,
+      multiline = false,
+      lineHeight = '0px',
     }: TextOptionsProps,
   ) {
     const textToString = typeof text !== 'string' ? text?.toString() : text;
-    // console.log('textToString: ', textToString);
-
-    const fontPos = ctx.measureText(textToString);
-    if (textToString === 'ㄱ부터ㅎ까지') {
-      console.log('fontPos: ', fontPos);
-    }
 
     ctx.fillStyle = color;
     ctx.textAlign = textAlign;
     ctx.textBaseline = textBaseline;
     ctx.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
-    ctx.fillText(textToString, x, y, maxWidth);
+
+    if (multiline) {
+      this.wrapText(ctx, text, {
+        x,
+        y,
+        maxWidth,
+        lineHeight,
+      });
+    } else {
+      ctx.fillText(textToString, x, y, maxWidth);
+    }
   }
 }
 
@@ -72,11 +133,9 @@ export class BlogThumbnail<IKeys> {
       },
       instance: new Text(),
     }));
-
-    // console.log('textArr:', this.textArr);
   }
 
-  public update(key: any, text: string, inform?: TextOptionsProps) {
+  public update(key: string, text: string, inform?: TextOptionsProps) {
     const findTextIndex = this.textArr.findIndex(
       ({ key: textKey }) => textKey === key,
     );
@@ -87,9 +146,41 @@ export class BlogThumbnail<IKeys> {
     }
   }
 
-  public show(ctx: CanvasRenderingContext2D) {
+  private canvasBackground(
+    ctx: CanvasRenderingContext2D,
+    stageWidth: number,
+    stageHeight: number,
+  ) {
+    ctx.save();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, stageWidth, stageHeight);
+    ctx.restore();
+  }
+
+  public show(
+    ctx: CanvasRenderingContext2D,
+    stageWidth: number,
+    stageHeight: number,
+  ) {
+    ctx.clearRect(0, 0, stageWidth, stageHeight);
+    this.canvasBackground(ctx, stageWidth, stageHeight);
+
     this.textArr.map(({ instance, text, inform }) =>
       instance.draw(ctx, text, inform),
     );
+  }
+
+  public getImageData(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ) {
+    try {
+      return ctx.getImageData(x, y, width, height);
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
