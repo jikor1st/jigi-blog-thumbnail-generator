@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
-import { breakpointsOptions } from '@/lib/theme/options/breakpoints';
+import { ReactNode, useEffect } from 'react';
 import { useConditionEffect } from '@/lib/hooks';
 import styled from '@emotion/styled';
+
+// import { Typo, Box } from '@/base-components';
 
 export function BreakpointsPage() {
   useConditionEffect(() => {}, [], {
@@ -10,16 +11,6 @@ export function BreakpointsPage() {
   return (
     <>
       <p>test</p>
-      <BoxStyled>box</BoxStyled>
     </>
   );
 }
-
-const BoxStyled = styled.div(({ theme }) => {
-  console.log(theme);
-  return {
-    [theme.breakpoints.media.down('sm')]: {
-      color: '#ff0000',
-    },
-  };
-});

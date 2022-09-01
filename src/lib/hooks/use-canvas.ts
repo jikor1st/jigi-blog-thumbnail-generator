@@ -144,6 +144,9 @@ const useCanvas = (props: UseCanvasProps) => {
       canvasStageRef.current.width * pixelRatioRef.current;
     canvasRef.current.height =
       canvasStageRef.current.height * pixelRatioRef.current;
+
+    canvasRef.current.style.width = `${canvasStageRef.current.width}px`;
+    canvasRef.current.style.height = `${canvasStageRef.current.height}px`;
     ctxRef.current.scale(pixelRatioRef.current, pixelRatioRef.current);
   };
 
@@ -201,6 +204,8 @@ const useCanvas = (props: UseCanvasProps) => {
   return {
     registerCanvas,
     registerCanvasContainer,
+    ctxRef,
+    canvasStageRef,
   };
 };
 

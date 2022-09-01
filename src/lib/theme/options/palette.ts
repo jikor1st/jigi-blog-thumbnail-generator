@@ -51,8 +51,8 @@ const paletteOptions = {
     light: '#FBFBFB',
   },
   actions: {
-    disabled: 'rgba(34,34,34,32)',
-    hover: 'rgba(34,34,34,6)',
+    disabled: 'rgba(34,34,34,.32)',
+    hover: 'rgba(34,34,34,.06)',
   },
 };
 

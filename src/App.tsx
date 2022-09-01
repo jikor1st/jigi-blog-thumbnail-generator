@@ -11,11 +11,11 @@ import { AsyncBoundary } from '@/extends-components';
 function App() {
   return (
     <>
-      <div>
+      {/* <div>
         <NavLink to={'/'}>메인</NavLink>
         <NavLink to={'success'}>성공</NavLink>
         <NavLink to={'failed'}>실패</NavLink>
-      </div>
+      </div> */}
       <Routes>
         {PAGE_ROUTES.map(({ path, page, name }) => (
           <Route

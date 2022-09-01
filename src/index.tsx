@@ -10,7 +10,7 @@ import { Global, ThemeProvider } from '@emotion/react';
 
 import { globalTheme } from '@/lib/theme';
 // styles
-import { globalCss, resetCss } from '@/lib/styles';
+import { resetCss, globalCss, fontCss } from '@/lib/styles';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -19,7 +19,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={globalTheme}>
-        <Global styles={[resetCss, globalCss]} />
+        <Global styles={[resetCss, globalCss, fontCss]} />
         <App />
       </ThemeProvider>
     </BrowserRouter>

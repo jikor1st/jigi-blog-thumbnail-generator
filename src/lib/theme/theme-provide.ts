@@ -1,9 +1,15 @@
 import { Theme } from '@emotion/react';
 
-import { breakpointsOptions } from './options';
+import {
+  typographyProvider,
+  breakpointsProvider,
+  paletteProvider,
+} from './provider';
 
 const globalTheme: Theme = {
-  breakpoints: breakpointsOptions,
+  breakpoints: breakpointsProvider,
+  typography: typographyProvider,
+  palette: paletteProvider,
 };
 
 export { globalTheme };
