@@ -1,1 +1,1 @@
-export { globalTheme } from './theme-provide';
+export { globalTheme } from './themeProvide';

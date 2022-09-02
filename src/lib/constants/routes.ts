@@ -9,7 +9,7 @@ const {
   PageNotFoundPage,
   // playground
   BreakpointsPage,
-} = namedLazy(() => import('@/pages'), 350);
+} = namedLazy(() => import('@/pages'), 300);
 
 interface PageRouteType {
   name: string;

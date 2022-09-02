@@ -4,7 +4,7 @@
 //   Bold: 700,
 //   SemiBold: 600,
 //   Medium: 500,
-//   Regular: 400,
+//   Regular: 500,
 //   Light: 300,
 //   ExtraLight: 200,
 //   Thin: 100,
@@ -73,7 +73,7 @@ export const typographyOptions = {
     body1: {
       fontFamily: 'Pretendard',
       fontSize: 16,
-      fontWeight: 400,
+      fontWeight: 500,
       lineHeight: '28px',
       letterSpacing: 0,
     },

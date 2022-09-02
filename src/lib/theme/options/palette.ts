@@ -34,7 +34,7 @@ export const paletteOptions = {
     main: '#8DDF10',
     dark: '#4F782F',
     light: '#E8F9D7',
-    contrast: '#1C1D18',
+    contrast: '#ffffff',
   },
   background: {
     paper: '#FFFFFF',

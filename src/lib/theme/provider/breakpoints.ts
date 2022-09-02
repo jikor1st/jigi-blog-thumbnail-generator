@@ -29,5 +29,5 @@ const breakpointsMedia = {
 
 export const breakpointsProvider = {
   values: breakpointsValues,
-  media: breakpointsMedia,
+  ...breakpointsMedia,
 };

@@ -1,2 +1,6 @@
 export { TextField } from './TextField';
-export { Button } from './Button';
+export { ButtonBase } from './ButtonBase';
+export { PageLoading } from './PageLoading';
+export { GoBack } from './GoBack';
+export { IconBase } from './IconBase';
+export { InfoForDevelopment } from './InfoForDevelopment';

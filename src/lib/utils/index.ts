@@ -1,4 +1,4 @@
-export { domController } from './dom-controller';
-export type { RectMethod } from './dom-controller';
+export { domController } from './domController';
+export type { RectMethod } from './domController';
 
 export { convert } from './convert';

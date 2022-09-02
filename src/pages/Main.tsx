@@ -1,54 +1,16 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 
-import { TextField, Button } from '@/components';
+import { TextField, ButtonBase } from '@/components';
 
-import { useCanvas, useForm, useConditionEffect } from '@/lib/hooks';
+import { CanvasView } from '@/container';
+
+import { useCanvas, useForm } from '@/lib/hooks';
 
 import { BlogThumbnail } from '@/lib/modules';
 
 import { useTheme } from '@emotion/react';
-
-const Container = styled.main(({ theme }) => {
-  return {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  };
-});
-const Wrapper = styled.div(({ theme }) => {
-  return {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-  };
-});
-
-const CanvasSection = styled.section(({ theme }) => {
-  return {
-    boxSizing: 'border-box',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    fontSize: 0,
-    padding: 40,
-    background: theme.palette.background.canvas,
-  };
-});
-
-const CanvasBackground = styled.div(({ theme }) => {
-  return {
-    position: 'relative',
-    width: '100%',
-    maxWidth: 600,
-    aspectRatio: '1 / 1',
-    background: theme.palette.background.paper,
-    border: '1px solid',
-    borderColor: theme.palette.divider.secondary,
-  };
-});
+import { useNavigate } from 'react-router-dom';
 
 const Canvas = styled.canvas(({ theme }) => {
   return {
@@ -59,20 +21,6 @@ const Canvas = styled.canvas(({ theme }) => {
     right: 0,
     width: '100%',
     height: '100%',
-  };
-});
-
-const FormSection = styled.section(({ theme }) => {
-  return {
-    flex: '0 0 556px',
-    borderLeft: `1px solid ${theme.palette.divider.secondary}`,
-    background: theme.palette.background.paper,
-  };
-});
-
-const FormWrapper = styled.div(() => {
-  return {
-    padding: '54px 80px',
   };
 });
 
@@ -110,6 +58,7 @@ const initialValues = {
 };
 
 export function MainPage() {
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const { formValue, formValidate, handleSetFormValue, handleSetFormValidate } =
@@ -205,72 +154,69 @@ export function MainPage() {
   };
 
   const handleClickCreateImage = () => {
-    downloadImageFromCanvas();
+    // downloadImageFromCanvas();
+    navigate('/success');
   };
 
   return (
-    <Container>
-      <Wrapper>
-        <CanvasSection>
-          <CanvasBackground ref={registerCanvasContainer}>
-            <Canvas ref={registerCanvas} />
-          </CanvasBackground>
-        </CanvasSection>
-        <FormSection>
-          <FormWrapper>
-            <SectionHeader>
-              <SectionTitle>정보를 기입해주세요</SectionTitle>
-            </SectionHeader>
-            <InputWrapper>
-              <TextField
-                inputTitle="블로그 이름"
-                type="text"
-                placeholder="블로그 이름을 입력해주세요"
-                value={formValue.blogName}
-                onChange={handleChangeBlogName}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <TextField
-                inputTitle="카테고리"
-                type="text"
-                placeholder="카테고리를 입력해주세요"
-                value={formValue.category}
-                onChange={handleChangeCategory}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <TextField
-                inputTitle="제목"
-                type="text"
-                placeholder="제목을 입력해주세요"
-                value={formValue.title}
-                multiLine
-                onChange={handleChangeTitle}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <TextField
-                inputTitle="콘텐츠"
-                type="text"
-                placeholder="콘텐츠를 입력해주세요"
-                value={formValue.contents}
-                multiLine
-                onChange={handleChangeContents}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Button
-                variant="primary"
-                onClick={handleClickCreateImage}
-                fullWidth
-              >
-                제작하기
-              </Button>
-            </InputWrapper>
-          </FormWrapper>
-        </FormSection>
-      </Wrapper>
-    </Container>
+    <CanvasView
+      canvasBackgroundRef={registerCanvasContainer}
+      canvas={<Canvas ref={registerCanvas} />}
+      section={
+        <>
+          <SectionHeader>
+            <SectionTitle>정보를 기입해주세요</SectionTitle>
+          </SectionHeader>
+          <InputWrapper>
+            <TextField
+              inputTitle="블로그 이름"
+              type="text"
+              placeholder="블로그 이름을 입력해주세요"
+              value={formValue.blogName}
+              onChange={handleChangeBlogName}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <TextField
+              inputTitle="카테고리"
+              type="text"
+              placeholder="카테고리를 입력해주세요"
+              value={formValue.category}
+              onChange={handleChangeCategory}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <TextField
+              inputTitle="제목"
+              type="text"
+              placeholder="제목을 입력해주세요"
+              value={formValue.title}
+              multiLine
+              onChange={handleChangeTitle}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <TextField
+              inputTitle="콘텐츠"
+              type="text"
+              placeholder="콘텐츠를 입력해주세요"
+              value={formValue.contents}
+              multiLine
+              onChange={handleChangeContents}
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <ButtonBase
+              variant="filled"
+              size="large"
+              onClick={handleClickCreateImage}
+              fullWidth
+            >
+              제작하기
+            </ButtonBase>
+          </InputWrapper>
+        </>
+      }
+    />
   );
 }

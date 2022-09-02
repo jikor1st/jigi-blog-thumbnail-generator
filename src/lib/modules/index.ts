@@ -1,2 +1,2 @@
 export { namedLazy } from './namedLazy';
-export { BlogThumbnail } from './blog-thumbnail';
+export { BlogThumbnail } from './blogThumbnail';
