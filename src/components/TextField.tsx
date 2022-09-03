@@ -89,17 +89,7 @@ const TextArea = styled.textarea(({ theme }) => {
       },
     },
     // not standard
-    '&::-webkit-scrollbar': {
-      width: 4,
-      borderRadius: 2,
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.palette.actions.disabled,
-      borderRadius: 2,
-    },
-    '&::-webkit-scrollbar-track': {
-      backgroundColor: theme.palette.actions.hover,
-    },
+    ...theme.palette.unstabled_scrollbar,
   };
 });
 

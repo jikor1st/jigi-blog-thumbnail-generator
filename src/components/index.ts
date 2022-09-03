@@ -4,3 +4,4 @@ export { PageLoading } from './PageLoading';
 export { GoBack } from './GoBack';
 export { IconBase } from './IconBase';
 export { InfoForDevelopment } from './InfoForDevelopment';
+export { ModalForDeveloper } from './ModalForDeveloper';

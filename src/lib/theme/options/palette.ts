@@ -54,4 +54,20 @@ export const paletteOptions = {
     disabled: 'rgba(34,34,34,.32)',
     hover: 'rgba(34,34,34,.06)',
   },
+  shadow: {
+    modal: '-3px 0px 8px 0px rgba(29, 32, 35, 0.12)',
+  },
+  unstabled_scrollbar: {
+    '&::-webkit-scrollbar': {
+      width: 4,
+      borderRadius: 2,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(34,34,34,.32)',
+      borderRadius: 2,
+    },
+    '&::-webkit-scrollbar-track': {
+      backgroundColor: 'rgba(34,34,34,.06)',
+    },
+  },
 };

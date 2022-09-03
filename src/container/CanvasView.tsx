@@ -1,7 +1,7 @@
 import { memo, ReactElement, Ref } from 'react';
 import styled from '@emotion/styled';
 
-const Container = styled.main(({ theme }) => {
+const Container = styled.div(({ theme }) => {
   return {
     display: 'flex',
     flexDirection: 'row',
@@ -39,7 +39,7 @@ const CanvasBackground = styled.div(({ theme }) => {
 
 const FormSection = styled.section(({ theme }) => {
   return {
-    flex: '0 0 556px',
+    flex: '0 0 auto',
     borderLeft: `1px solid ${theme.palette.divider.secondary}`,
     background: theme.palette.background.paper,
   };

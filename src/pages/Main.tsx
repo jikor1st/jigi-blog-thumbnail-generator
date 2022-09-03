@@ -143,19 +143,20 @@ export function MainPage() {
     });
   }, [formValue.contents]);
 
-  const downloadImageFromCanvas = () => {
-    if (!canvasRef.current) return;
-    const imageURL = canvasRef.current.toDataURL('image/png');
-
-    const aEl = document.createElement('a');
-    aEl.href = imageURL;
-    aEl.download = `${formValue.category}-${formValue.title}-thumbnail`;
-    aEl.click();
-  };
-
   const handleClickCreateImage = () => {
-    // downloadImageFromCanvas();
-    navigate('/success');
+    if (!canvasRef.current) return;
+    try {
+      const imageURL = canvasRef.current.toDataURL('image/png');
+
+      navigate('/success', {
+        state: {
+          title: formValue.title,
+          imageURL: imageURL,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

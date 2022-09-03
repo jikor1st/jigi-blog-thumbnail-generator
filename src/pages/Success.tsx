@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { CanvasView } from '@/container';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
-import { ReactComponent as ArrowDownIcon } from '@/assets/images/icons/icon-arrow-down-gray.svg';
+import { CanvasView } from '@/container';
 import { GoBack, IconBase, InfoForDevelopment, ButtonBase } from '@/components';
-import { useNavigate } from 'react-router-dom';
 
 const CanvasImage = styled.img(() => {
   return {};
@@ -53,18 +52,38 @@ const ButtonWrapper = styled.div(({ theme }) => {
   };
 });
 
+interface LocationStateType {
+  imageURL: string;
+  title: String;
+}
+
 export function SuccessPage() {
   const navigate = useNavigate();
+  const locationState = useLocation().state as LocationStateType;
 
   const handleClickReCreate = () => {
     // Go to Main
     navigate('/');
   };
 
-  const handleClickImgDownload = () => {};
+  const handleClickImgDownload = () => {
+    if (locationState) {
+      const { imageURL, title } = locationState;
+      const aEl = document.createElement('a');
+      aEl.href = imageURL;
+      aEl.download = `${title}-thumbnail`;
+      aEl.click();
+    }
+  };
   return (
     <CanvasView
-      canvas={<CanvasImage src="" />}
+      canvas={
+        <>
+          {locationState?.imageURL && (
+            <CanvasImage src={locationState?.imageURL} />
+          )}
+        </>
+      }
       section={
         <SectionContainer>
           <SectionHeader>

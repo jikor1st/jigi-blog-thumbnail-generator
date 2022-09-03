@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import { createElement, memo } from 'react';
 import styled from '@emotion/styled';
 
 import { ICONS } from '@/lib/constants';
@@ -35,45 +35,42 @@ const IconBox = styled.div<{
   };
 });
 
-export const IconBase: React.FC<IconBaseProps> = ({
-  icon,
-  variant = 'default',
-  color = 'secondary',
-  size = 'medium',
-}) => {
-  const theme = useTheme();
+export const IconBase: React.FC<IconBaseProps> = memo(
+  ({ icon, variant = 'default', color = 'secondary', size = 'medium' }) => {
+    const theme = useTheme();
 
-  let iconFill = 'none';
-  let bgFill = 'none';
-  let bgOutline = 'none';
+    let iconFill = 'none';
+    let bgFill = 'none';
+    let bgOutline = 'none';
 
-  switch (variant) {
-    case 'filled':
-      iconFill = theme.palette[color].contrast;
-      bgFill = theme.palette[color].main;
-      break;
-    case 'outlined':
-      iconFill = theme.palette[color].main;
-      bgOutline = theme.palette[color].main;
-      break;
-    default:
-      iconFill = theme.palette[color].main;
-      break;
-  }
+    switch (variant) {
+      case 'filled':
+        iconFill = theme.palette[color].contrast;
+        bgFill = theme.palette[color].main;
+        break;
+      case 'outlined':
+        iconFill = theme.palette[color].main;
+        bgOutline = theme.palette[color].main;
+        break;
+      default:
+        iconFill = theme.palette[color].main;
+        break;
+    }
 
-  const iconSize = typeof size !== 'number' ? ICON_SIZE[size] : size;
-  return (
-    <IconBox
-      width={iconSize}
-      height={iconSize}
-      bgFill={bgFill}
-      bgOutline={bgOutline}
-    >
-      {createElement(ICONS[icon], {
-        width: iconSize,
-        height: iconSize,
-        fill: iconFill,
-      })}
-    </IconBox>
-  );
-};
+    const iconSize = typeof size !== 'number' ? ICON_SIZE[size] : size;
+    return (
+      <IconBox
+        width={iconSize}
+        height={iconSize}
+        bgFill={bgFill}
+        bgOutline={bgOutline}
+      >
+        {createElement(ICONS[icon], {
+          width: iconSize,
+          height: iconSize,
+          fill: iconFill,
+        })}
+      </IconBox>
+    );
+  },
+);

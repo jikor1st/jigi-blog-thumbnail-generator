@@ -10,7 +10,7 @@ import { Routes, Route, NavLink } from 'react-router-dom';
 // constants
 import { PAGE_ROUTES } from '@/lib/constants';
 
-import { AsyncBoundary } from '@/extends-components';
+import { AsyncBoundary, PortalRoot } from '@/extends-components';
 
 import { PageLoading } from '@/components';
 
@@ -45,6 +45,7 @@ function App() {
           />
         ))}
       </Routes>
+      <PortalRoot />
     </>
   );
 }

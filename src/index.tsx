@@ -13,7 +13,7 @@ import { globalTheme } from '@/lib/theme';
 import { resetCss, globalCss, fontCss } from '@/lib/styles';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
+  document.getElementById('app-root') as HTMLElement,
 );
 root.render(
   <React.StrictMode>
