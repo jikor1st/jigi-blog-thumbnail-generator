@@ -31,11 +31,12 @@ const ResultSection = styled.div(() => {
 
 const Title = styled.h3(({ theme }) => {
   return {
-    display: 'flex',
+    display: 'inline-grid',
+    gridAutoFlow: 'column',
+    gridGap: 12,
     alignItems: 'center',
     color: theme.palette.success.main,
     ...theme.typography.h5,
-    columnGap: '12px',
   };
 });
 
@@ -50,8 +51,9 @@ const SubTitle = styled.h4(({ theme }) => {
 
 const ButtonWrapper = styled.div(({ theme }) => {
   return {
-    display: 'flex',
-    columnGap: '16px',
+    display: 'inline-grid',
+    gridAutoFlow: 'column',
+    gridGap: 12,
     marginTop: 40,
     marginBottom: 40,
   };

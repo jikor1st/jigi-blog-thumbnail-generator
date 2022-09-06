@@ -4,11 +4,14 @@ import { Contact } from '@/components';
 
 const Container = styled.div(({ theme }) => {
   return {
-    display: 'flex',
-    flexDirection: 'row',
+    display: 'inline-grid',
+    gridTemplateColumns: '1fr 500px',
     width: '100%',
+    background: theme.palette.background.canvas,
     [theme.breakpoints.down('lg')]: {
-      flexDirection: 'column',
+      gridTemplateColumns: 'unset',
+      gridAutoRows: 'auto',
+      // gridTemplateRows: '1fr',
     },
   };
 });
@@ -19,19 +22,37 @@ const CanvasSection = styled.section(({ theme }) => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
     fontSize: 0,
     padding: 40,
-    background: theme.palette.background.canvas,
+  };
+});
+
+const CanvasSizer = styled.div(() => {
+  return {
+    width: '100%',
+    maxWidth: 600,
+  };
+});
+
+const CanvasWrapper = styled.div(() => {
+  return {
+    position: 'relative',
+    width: '100%',
+    height: 'auto',
+    paddingTop: '100%',
   };
 });
 
 const CanvasBackground = styled.div(({ theme }) => {
   return {
-    position: 'relative',
+    boxSizing: 'border-box',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     width: '100%',
-    maxWidth: 600,
-    aspectRatio: '1 / 1',
+    height: '100%',
     background: theme.palette.background.paper,
     border: '1px solid',
     borderColor: theme.palette.divider.secondary,
@@ -81,9 +102,13 @@ export const CanvasView: React.FC<CanvasViewProps> = memo(
     return (
       <Container>
         <CanvasSection>
-          <CanvasBackground ref={canvasBackgroundRef}>
-            {canvas}
-          </CanvasBackground>
+          <CanvasSizer>
+            <CanvasWrapper>
+              <CanvasBackground ref={canvasBackgroundRef}>
+                {canvas}
+              </CanvasBackground>
+            </CanvasWrapper>
+          </CanvasSizer>
         </CanvasSection>
         <FormSection>
           <FormWrapper>

@@ -21,8 +21,9 @@ const Title = styled.h3(({ theme }) => {
 
 const ContactBox = styled.div(() => {
   return {
-    display: 'inline-flex',
-    columnGap: 14,
+    display: 'inline-grid',
+    gridAutoFlow: 'column',
+    gridGap: 12,
     marginTop: 12,
   };
 });
@@ -81,7 +82,11 @@ export const Contact = () => {
                 </ContactLink>
               );
             } else {
-              return <ContactButton onClick={onClick}>{icon}</ContactButton>;
+              return (
+                <ContactButton onClick={onClick} key={v4()}>
+                  {icon}
+                </ContactButton>
+              );
             }
           })}
         </ContactBox>

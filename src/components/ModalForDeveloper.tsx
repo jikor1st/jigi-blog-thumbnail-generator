@@ -32,9 +32,10 @@ const Text = styled.p(({ theme }) => {
 });
 const Info = styled.p(({ theme }) => {
   return {
-    display: 'flex',
+    display: 'inline-grid',
+    gridAutoFlow: 'column',
     alignItems: 'center',
-    columnGap: 4,
+    gridGap: 4,
     color: theme.palette.text.secondary,
     ...theme.typography.body2,
   };

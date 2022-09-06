@@ -31,8 +31,9 @@ const ErrorCode = styled.h2(({ theme }) => {
 
 const ErrorMsgWrapper = styled.h3(({ theme }) => {
   return {
-    display: 'inline-flex',
-    columnGap: 10,
+    display: 'inline-grid',
+    gridAutoFlow: 'column',
+    gridGap: 10,
     textAlign: 'left',
     marginTop: 8,
   };

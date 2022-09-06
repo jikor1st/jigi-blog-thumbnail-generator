@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import PolyfillResizeObserver from 'resize-observer-polyfill';
 
 import { useConditionEffect } from '@/lib/hooks';
@@ -26,13 +26,11 @@ const useResizeObserver = ({
 
   const installResizeObserver = (entries: ResizeObserverEntry[]) => {
     for (let entry of entries) {
-      const { inlineSize, blockSize } = Array.isArray(entry.contentBoxSize)
-        ? entry.contentBoxSize[0]
-        : (entry.contentBoxSize as ResizeObserverSize[]);
+      const { width, height } = entry.contentRect;
       if (typeof onResizeObserver === 'function') {
         onResizeObserver({
-          width: inlineSize,
-          height: blockSize,
+          width: width,
+          height: height,
         });
       }
     }
@@ -40,9 +38,7 @@ const useResizeObserver = ({
 
   useConditionEffect(
     () => {
-      observerRef.current = window.ResizeObserver
-        ? new ResizeObserver(installResizeObserver)
-        : new PolyfillResizeObserver(installResizeObserver);
+      observerRef.current = new PolyfillResizeObserver(installResizeObserver);
 
       return () => {
         if (!observerRef.current || !targetElementRef.current) return;
