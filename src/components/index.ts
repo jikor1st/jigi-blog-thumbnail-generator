@@ -5,3 +5,5 @@ export { GoBack } from './GoBack';
 export { IconBase } from './IconBase';
 export { InfoForDevelopment } from './InfoForDevelopment';
 export { ModalForDeveloper } from './ModalForDeveloper';
+export { LoadingIndicator } from './LoadingIndicator';
+export { Contact } from './Contact';

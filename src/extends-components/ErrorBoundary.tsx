@@ -1,23 +1,25 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 
+import { CustomError } from '@/lib/modules';
+
 //types
-type RenderFallbackProps<ErrorType extends Error = Error> = {
+type RenderFallbackProps<ErrorType extends CustomError> = {
   error: ErrorType;
   reset: (...args: unknown[]) => void;
 };
 
-type RenderFallbackType = <ErrorType extends Error>(
+type RenderFallbackType = <ErrorType extends CustomError>(
   props: RenderFallbackProps<ErrorType>,
 ) => ReactNode;
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
   onReset?: () => void;
-  onError?: (error: Error, info: { componentStack: string }) => void;
+  onError?: (error: CustomError, info: { componentStack: string }) => void;
   renderFallback: RenderFallbackType;
 }
 interface ErrorBoundaryState {
-  error: Error | null;
+  error: CustomError | null;
 }
 
 const inititalState: ErrorBoundaryState = { error: null };
@@ -50,6 +52,7 @@ export class ErrorBoundary extends React.Component<
 
   public render() {
     const { error } = this.state;
+    // console.log('error: ', error);
     const { children, renderFallback } = this.props;
 
     if (error !== null) {

@@ -18,6 +18,7 @@ const Boundary = styled.div<{ nested: boolean }>(({ nested }) => {
     bottom: 0,
     right: 0,
     width: '100%',
+
     zIndex: 10000,
   };
 });

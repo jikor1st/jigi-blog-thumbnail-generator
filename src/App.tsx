@@ -14,7 +14,7 @@ import { AsyncBoundary, PortalRoot } from '@/extends-components';
 
 import { PageLoading } from '@/components';
 
-import { PageLayout } from '@/container';
+import { PageLayout, ErrorView } from '@/container';
 
 function App() {
   return (
@@ -34,7 +34,16 @@ function App() {
               //   <CSSTransition key={v4()} timeout={250} classNames="fade">
               <AsyncBoundary
                 pendingFallback={<PageLoading />}
-                rejectedFallback={() => <div>에러 감지</div>}
+                rejectedFallback={({ error, reset }) => {
+                  const errorCode = error?.code ?? 'Warning';
+                  return (
+                    <ErrorView
+                      errorCode={errorCode}
+                      errorMessage={error.message}
+                      onResetError={() => reset()}
+                    />
+                  );
+                }}
               >
                 <PageLayout>{React.createElement(page)}</PageLayout>
               </AsyncBoundary>

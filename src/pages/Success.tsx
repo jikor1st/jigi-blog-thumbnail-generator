@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
 import { CanvasView } from '@/container';
 import { GoBack, IconBase, InfoForDevelopment, ButtonBase } from '@/components';
+import { CustomError } from '@/lib/modules';
 
 const CanvasImage = styled.img(() => {
-  return {};
+  return {
+    width: '100%',
+    height: '100%',
+  };
 });
 
 const SectionContainer = styled.div(() => {
@@ -49,26 +53,43 @@ const ButtonWrapper = styled.div(({ theme }) => {
     display: 'flex',
     columnGap: '16px',
     marginTop: 40,
+    marginBottom: 40,
   };
 });
 
-interface LocationStateType {
+interface FormValues {
+  blogName: string;
+  category: string;
+  title: string;
+  contents: string;
+}
+
+interface CanvasState extends FormValues {
   imageURL: string;
-  title: String;
+}
+
+interface CanvasLocation {
+  state?: CanvasState;
 }
 
 export function SuccessPage() {
   const navigate = useNavigate();
-  const locationState = useLocation().state as LocationStateType;
+  const location = useLocation() as CanvasLocation;
 
   const handleClickReCreate = () => {
     // Go to Main
     navigate('/');
   };
 
+  useEffect(() => {
+    if (!location.state) {
+      throw new CustomError({ message: '잘못된 접근입니다.' });
+    }
+  }, [location.state]);
+
   const handleClickImgDownload = () => {
-    if (locationState) {
-      const { imageURL, title } = locationState;
+    if (location.state) {
+      const { imageURL, title } = location.state;
       const aEl = document.createElement('a');
       aEl.href = imageURL;
       aEl.download = `${title}-thumbnail`;
@@ -79,15 +100,15 @@ export function SuccessPage() {
     <CanvasView
       canvas={
         <>
-          {locationState?.imageURL && (
-            <CanvasImage src={locationState?.imageURL} />
+          {location?.state?.imageURL && (
+            <CanvasImage src={location?.state?.imageURL} />
           )}
         </>
       }
       section={
         <SectionContainer>
           <SectionHeader>
-            <GoBack />
+            <GoBack linkTo="/" />
           </SectionHeader>
           <ResultSection>
             <Title>
@@ -100,6 +121,7 @@ export function SuccessPage() {
               <ButtonBase
                 variant="outlined"
                 color="secondary"
+                size="medium"
                 onClick={handleClickReCreate}
               >
                 새로 제작하기
@@ -107,6 +129,7 @@ export function SuccessPage() {
               <ButtonBase
                 variant="filled"
                 color="primary"
+                size="medium"
                 onClick={handleClickImgDownload}
               >
                 이미지 다운로드

@@ -1,11 +1,16 @@
 // useForm.ts
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, Ref } from 'react';
 
 type UseFormReturnType<FormValuesProps> = {
   // TODO: any 타입 설정 필요
   formValue: FormValuesType<FormValuesProps>;
   formValidate: FormValidateType<FormValuesProps>;
   formCertificate: FormCertificateType<FormValuesProps>;
+  formInputRef: { current: FormRefsType<FormValuesProps> };
+  registerFormInput: (
+    formName: keyof FormValuesProps,
+    element?: HTMLInputElement | HTMLTextAreaElement,
+  ) => void;
   handleSetFormValue: (
     formName: keyof FormValuesProps,
     changeValue: any,
@@ -46,6 +51,12 @@ type FormInitialType<FormValuesProps> = {
 type FormValuesType<FormValuesProps> = {
   [PropertyKey in keyof FormValuesProps]: FormValuesProps[PropertyKey];
 };
+type FormRefsType<FormValuesProps> = {
+  [PropertyKey in keyof FormValuesProps]:
+    | HTMLInputElement
+    | HTMLTextAreaElement
+    | null;
+};
 
 type FormValidateObjectType = {
   error: boolean;
@@ -81,6 +92,17 @@ function createInitialValues<FormValuesProps>(
     resultInitialFormValue[initialFormKey] = value;
   });
   return resultInitialFormValue as FormValuesType<FormValuesProps>;
+}
+function createInitialRefs<FormValuesProps>(
+  initial: FormInitialType<FormValuesProps>,
+) {
+  // TODO : any 타입 수정 필요
+  const resultInitialFormRefs: any = {};
+  Object.entries(initial).forEach(([initialFormKey]) => {
+    // TODO : value type 에러 수정 필요
+    resultInitialFormRefs[initialFormKey] = null;
+  });
+  return resultInitialFormRefs as FormRefsType<FormValuesProps>;
 }
 
 function createInitialValidate<FormValuesProps>(
@@ -152,6 +174,18 @@ export function useForm<FormValuesProps>({
   const [formCertificate, setFormCertificate] = useState<
     FormCertificateType<FormValuesProps>
   >(createInitialCertificate<FormValuesProps>(initial));
+
+  const formInputRef = useRef<FormRefsType<FormValuesProps>>(
+    createInitialRefs<FormValuesProps>(initial),
+  );
+
+  function registerFormInput(
+    formName: keyof FormValuesProps,
+    element?: HTMLInputElement | HTMLTextAreaElement | null,
+  ) {
+    if (!element) return;
+    formInputRef.current[formName] = element;
+  }
 
   const handleSetFormValue = useCallback(
     (formName: keyof FormValuesProps, changeValue: FormValuesProps) => {
@@ -244,6 +278,8 @@ export function useForm<FormValuesProps>({
     formValue,
     formValidate,
     formCertificate,
+    formInputRef,
+    registerFormInput,
     handleSetFormValue,
     resetAllFormValue,
     handleSetFormValidate,

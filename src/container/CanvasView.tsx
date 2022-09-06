@@ -1,5 +1,6 @@
 import { memo, ReactElement, Ref } from 'react';
 import styled from '@emotion/styled';
+import { Contact } from '@/components';
 
 const Container = styled.div(({ theme }) => {
   return {
@@ -39,15 +40,34 @@ const CanvasBackground = styled.div(({ theme }) => {
 
 const FormSection = styled.section(({ theme }) => {
   return {
+    display: 'flex',
+    flexDirection: 'column',
     flex: '0 0 auto',
     borderLeft: `1px solid ${theme.palette.divider.secondary}`,
     background: theme.palette.background.paper,
+    maxHeight: '100vh',
+    overflow: 'auto',
+    [theme.breakpoints.down('lg')]: {
+      maxHeight: 'unset',
+    },
   };
 });
 
-const FormWrapper = styled.div(() => {
+const FormWrapper = styled.div(({ theme }) => {
   return {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
     padding: '54px 80px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '24px 20px',
+    },
+  };
+});
+
+const ContactWrapper = styled.div(() => {
+  return {
+    marginTop: 'auto',
   };
 });
 
@@ -66,7 +86,12 @@ export const CanvasView: React.FC<CanvasViewProps> = memo(
           </CanvasBackground>
         </CanvasSection>
         <FormSection>
-          <FormWrapper>{section}</FormWrapper>
+          <FormWrapper>
+            {section}
+            <ContactWrapper>
+              <Contact />
+            </ContactWrapper>
+          </FormWrapper>
         </FormSection>
       </Container>
     );

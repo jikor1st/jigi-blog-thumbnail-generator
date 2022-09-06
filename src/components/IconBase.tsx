@@ -18,7 +18,7 @@ interface IconBaseProps {
   size?: 'large' | 'medium' | 'small' | number;
 }
 
-const IconBox = styled.div<{
+const IconBox = styled.span<{
   width: number;
   height: number;
   bgFill: string;

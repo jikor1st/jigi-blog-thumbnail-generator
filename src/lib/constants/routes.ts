@@ -5,7 +5,6 @@ import { namedLazy } from '@/lib/modules';
 const {
   MainPage,
   SuccessPage,
-  FailedPage,
   PageNotFoundPage,
   // playground
   BreakpointsPage,
@@ -27,11 +26,6 @@ export const PAGE_ROUTES: PageRouteType[] = [
     name: '성공',
     path: 'success',
     page: SuccessPage,
-  },
-  {
-    name: '실패',
-    path: 'failed',
-    page: FailedPage,
   },
   {
     name: 'playground/breakpoints',

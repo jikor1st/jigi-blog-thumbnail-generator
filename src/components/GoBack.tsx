@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { IconBase } from '@/components';
 
-interface GoBackProps {}
+interface GoBackProps {
+  linkTo?: string;
+}
 
 const GoBackButton = styled.button(() => {
   return {
@@ -31,10 +33,19 @@ const GoBackText = styled.h2(({ theme }) => {
     ...theme.typography.subtitle2,
   };
 });
-export const GoBack: React.FC<GoBackProps> = () => {
+export const GoBack: React.FC<GoBackProps> = ({ linkTo }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   return (
-    <GoBackButton onClick={() => navigate(-1)}>
+    <GoBackButton
+      onClick={() => {
+        if (linkTo) {
+          navigate(linkTo, { ...location });
+        } else {
+          navigate(-1);
+        }
+      }}
+    >
       <Icon>
         <IconBase icon="ArrowDown" />
       </Icon>

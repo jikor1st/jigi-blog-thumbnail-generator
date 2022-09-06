@@ -60,15 +60,18 @@ const HeadClose = styled.button(() => {
     transform: 'translateY(-50%)',
   };
 });
-const Contents = styled.div(({ theme }) => {
-  return {
-    flex: 1,
-    height: '100%',
-    overflow: 'auto',
-    padding: '30px 20px',
-    ...theme.palette.unstabled_scrollbar,
-  };
-});
+const Contents = styled.div<{ maxHeight?: number | string }>(
+  ({ theme, maxHeight }) => {
+    return {
+      flex: 1,
+      height: '100%',
+      overflow: 'auto',
+      maxHeight: maxHeight ?? 'unset',
+      padding: '30px 20px',
+      ...theme.palette.unstabled_scrollbar,
+    };
+  },
+);
 
 const BottomWrapper = styled.div(({ theme }) => {
   return {
@@ -84,6 +87,7 @@ interface BasicModalProps extends ModalProps {
   isOpen?: boolean;
   onClose?: MouseEventHandler;
   bottomContents?: ReactNode;
+  maxHeight?: number | string;
 }
 
 const ComponentDidMount = () => {
@@ -94,7 +98,15 @@ const ComponentDidMount = () => {
 export const BasicModal = memo(
   forwardRef<HTMLDivElement, BasicModalProps>(
     (
-      { children, title, isOpen = false, onClose, bottomContents, ...props },
+      {
+        children,
+        title,
+        isOpen = false,
+        onClose,
+        bottomContents,
+        maxHeight,
+        ...props
+      },
       rootRef,
     ) => {
       return (
@@ -110,7 +122,7 @@ export const BasicModal = memo(
                       <IconBase icon="Close" />
                     </HeadClose>
                   </Header>
-                  <Contents>{children}</Contents>
+                  <Contents maxHeight={maxHeight}>{children}</Contents>
                   {bottomContents && (
                     <BottomWrapper>{bottomContents}</BottomWrapper>
                   )}
